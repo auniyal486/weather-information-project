@@ -30,11 +30,11 @@ class LoginView(APIView):
             'exp':datetime.datetime.utcnow()+datetime.timedelta(minutes=60),
             'iat':datetime.datetime.utcnow()
         }
-        token = jwt.encode(payload, AUTH_SECRET_KEY, algorithm='HS256')
+        token = jwt.encode(payload, AUTH_SECRET_KEY, algorithm='HS256') #generating token based on user's information.
         token = token if type(token)==str else token.decode("utf-8")
 
         response = Response()
-        response.set_cookie(key='token', value=token, httponly=True)
+        response.set_cookie(key='token', value=token, httponly=True) #storing token in cookies
         response.data = {
             'message': 'You are successfully logged in.',
             'token': token
@@ -44,7 +44,7 @@ class LoginView(APIView):
 class LogoutView(APIView):
     def post(self,request):
         response = Response()
-        response.delete_cookie('token')
+        response.delete_cookie('token') #remove token from cookies.
         response.data = {'message' : 'You are successfully logged out.'}
         return response
 
@@ -59,9 +59,11 @@ class WeatherApi(APIView):
         pageno= int(request.GET.get('pageno',1))
         if (pageno-1)*limit>=len(self.ids_list):
             return Response({"Weather Information":[]})
-        cities_id_list = self.ids_list[(pageno-1)*limit:(pageno)*limit]
+        cities_id_list = self.ids_list[(pageno-1)*limit:(pageno)*limit] #To fetch current page cities ids
         weather_data = []
         index = 0
+        # we are using while loop because in openweather api we can't pass more than 20 ids at a time.
+        # so if in our current page, there're more than 20 ids then we passing them in 20 ids batch.
         while(index<len(cities_id_list)):
             PARAMS = {"appid":self.weather_app_key,"units":"imperial","id":','.join(cities_id_list[index:index+20])}
             r = requests.get(url=self.url,params=PARAMS)
