@@ -6,7 +6,8 @@
 #### 2. Create .env file with all keys mentioned in .env-example file.
 #### 3. Hit ````pip install -r requirements.txt````.
 #### 4. Hit ````python manage.py migrate```` command.
-#### 5. Hit ````python manage.py runserver```` to check everything working fine or not.
+#### 5. Hit ````python manage.py createsuperuser```` command to create a user.
+#### 6. Hit ````python manage.py runserver```` to check everything working fine or not.
 
 
 ### API Collection:-
