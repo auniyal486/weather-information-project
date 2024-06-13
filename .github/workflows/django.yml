@@ -1,4 +1,4 @@
-name: Django CI
+name: weather-project
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  project-build:
 
     runs-on: ubuntu-latest
     strategy:
